@@ -105,7 +105,7 @@ class DisabledProductOptionPriceModifier implements PriceModifierInterface
      * Get all website ids of product
      *
      * @param int $entityId
-     * @return array
+     * @return int[]
      */
     private function getWebsiteIdsOfProduct(int $entityId): array
     {
@@ -121,7 +121,7 @@ class DisabledProductOptionPriceModifier implements PriceModifierInterface
         foreach ($connection->fetchCol($select) as $websiteId) {
             $this->websiteIdsOfProduct[$entityId][] = (int)$websiteId;
         }
-        return $this->websiteIdsOfProduct[$entityId];
+        return $this->websiteIdsOfProduct[$entityId] ?? [];
     }
 
     /**
