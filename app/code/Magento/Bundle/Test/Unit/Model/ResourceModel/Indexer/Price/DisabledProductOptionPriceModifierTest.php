@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Magento\Bundle\Test\Unit\Model\ResourceModel\Indexer\Price;
 
-use Zend_Db_Statement;
 use Magento\Bundle\Model\Product\SelectionProductsDisabledRequired;
 use Magento\Catalog\Model\Config;
 use Magento\Framework\App\ResourceConnection;
@@ -49,6 +48,16 @@ class DisabledProductOptionPriceModifierTest extends TestCase
      */
     private $disabledProductOptionPriceModifier;
 
+    // Helper function creates a nicer interface for mocking Generator behavior
+    protected function generate(array $yield_values)
+    {
+        return $this->returnCallback(function() use ($yield_values) {
+            foreach ($yield_values as $value) {
+                yield $value;
+            }
+        });
+    }
+
     protected function setUp(): void
     {
         $this->resourceMock = $this->createMock(ResourceConnection::class);
@@ -89,10 +98,12 @@ class DisabledProductOptionPriceModifierTest extends TestCase
         /** @var Zend_Db_Statement|MockObject $zendDbStatement */
         $zendDbStatement = $this->getMockForAbstractClass(\Zend_Db_Statement_Interface::class);
         $selectMock->expects($this->any())->method('query')->willReturn($zendDbStatement);
-
+//        $zendDbStatement->expects($this->any())->method('fetchColumn')->will($this->generate([5,6,7,8]));
+        $zendDbStatement->expects($this->any())->method('fetchColumn')->willReturn(1,2,3);
 //        $selectMock->expects($this->any())->method('fetchColumn')->willReturn('One_value_from_the_next_row');
 
 
+//        $selectMock->expects($this->any())->method('fetchCol')->with($connectionMock)->willReturn([1, 2, 3]);
         $connectionMock->expects($this->any())->method('fetchCol')->with($connectionMock)->willReturn([1, 2, 3]);
 
 
