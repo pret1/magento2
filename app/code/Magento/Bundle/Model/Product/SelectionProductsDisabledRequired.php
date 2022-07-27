@@ -91,6 +91,7 @@ class SelectionProductsDisabledRequired
         }
         $cacheKey = $this->getCacheKey($bundleId, $websiteId);
         if (isset($this->productsDisabledRequired[$cacheKey])) {
+
             return $this->productsDisabledRequired[$cacheKey];
         }
         $selectionProductIds = $this->bundleSelection->getChildrenIds($bundleId);
